@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class Personaje : MonoBehaviour
 {
-    // Variables públicas ajustables desde el Inspector de Unity
+    // Variables pï¿½blicas ajustables desde el Inspector de Unity
     public float moveSpeed = 5f; // Velocidad de movimiento ajustable
     public float jumpForce = 500f; // Fuerza de salto ajustable
     public int life = 3;
     public float tiempoDestruccion = 1f;
 
+    public int  monedas;
+
     // Variables privadas
-    private bool isGrounded; // Indica si el personaje está en el suelo
+    private bool isGrounded; // Indica si el personaje estï¿½ en el suelo
     private Rigidbody2D rb; // Referencia al componente Rigidbody2D del personaje
 
-    // Método Start, se llama una vez al inicio
+    // Mï¿½todo Start, se llama una vez al inicio
     void Start()
     {
         // Obtener y asignar el componente Rigidbody2D al principio
@@ -22,9 +24,11 @@ public class Personaje : MonoBehaviour
            
         }
         life = 3;
+
+        monedas = 0;
     }
 
-    // Método Update, se llama una vez por frame
+    // Mï¿½todo Update, se llama una vez por frame
     void Update()
     {
         // Movimiento horizontal
@@ -45,12 +49,12 @@ public class Personaje : MonoBehaviour
         {
             // Aplica una fuerza hacia arriba para hacer saltar al personaje
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            isGrounded = false; // Evita saltos múltiples en el aire
+            isGrounded = false; // Evita saltos mï¿½ltiples en el aire
            
         }
     }
 
-    // Método OnCollisionEnter2D, se llama cuando el personaje colisiona con otro objeto
+    // Mï¿½todo OnCollisionEnter2D, se llama cuando el personaje colisiona con otro objeto
     void OnCollisionEnter2D(Collision2D collision)
     {
        
@@ -75,12 +79,44 @@ public class Personaje : MonoBehaviour
             {
                 Debug.Log("El Jugador ha muerto");
                 gameObject.SetActive(false);
+
+            //record de recogida de monedas
+            int recordUltimo = PlayerPrefs.GetInt("Monedas");
+
+            if(PlayerPrefs.HasKey("Monedas") == false)
+            {
+                // no hay record guardado
+                PlayerPrefs.SetInt("Monedas", monedas);
+                Debug.Log("Nueva mejor puntuaciÃ³n! Record: "  + monedas);
+
             }
+            else
+            {
+                if (recordUltimo < monedas)
+                {
+                    // hay un nuevo record
+                    PlayerPrefs.SetInt("Monedas", monedas);
+                    Debug.Log("Nueva mejor puntuaciÃ³n! Record: "  + monedas);
+                }
+            }
+            }
+            
+
 
 
         }
 
 
+    }
+
+    void OnTriggerEnter2D(Collider2D collision) 
+    { 
+        if(collision.CompareTag("Moneda"))
+        {
+            collision.gameObject.SetActive(false);
+            monedas = monedas + 1;
+            Debug.Log("Monedas: " + monedas);
+        }
     }
 }
 

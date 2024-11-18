@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class GeneradorEnemigosSimple : MonoBehaviour
+public class GeneradorMonedas : MonoBehaviour
 {
-    public GameObject enemigoPrefab; // Prefab del enemigo
-    public float intervaloGeneracion = 5f; // Intervalo en segundos entre cada intento de generación de enemigo
+    public GameObject monedaPrefab; // Prefab de la moneda
+    public float intervaloGeneracion = 5f; // Intervalo en segundos entre cada intento de generación de moneda
     private float tiempoRestante; // Contador para el tiempo restante
 
     // Rango de generación en el eje Y
@@ -16,7 +16,7 @@ public class GeneradorEnemigosSimple : MonoBehaviour
     // Límite derecho en el eje X
     public float limiteDerecho = 9.43f;
 
-    // Probabilidad de generar un enemigo (valor entre 0 y 100)
+    // Probabilidad de generar una moneda (valor entre 0 y 100)
     public float probabilidadGeneracion = 50.0f;
 
     void Start()
@@ -27,9 +27,9 @@ public class GeneradorEnemigosSimple : MonoBehaviour
             return;
         }
 
-        if (enemigoPrefab == null)
+        if (monedaPrefab == null)
         {
-            //Debug.LogError("Prefab del enemigo no asignado en el Inspector");
+           // Debug.LogError("Prefab de la moneda no asignado en el Inspector");
             return;
         }
 
@@ -38,36 +38,37 @@ public class GeneradorEnemigosSimple : MonoBehaviour
 
     void Update()
     {
-        if (camaraTransform == null || enemigoPrefab == null) return;
+        if (camaraTransform == null || monedaPrefab == null) return;
 
         tiempoRestante -= Time.deltaTime; // Reducir el contador en cada frame
 
         if (tiempoRestante <= 0f)
         {
-            GenerarEnemigo(); // Intentar generar un enemigo
+            GenerarMoneda(); // Intentar generar una moneda
             tiempoRestante = intervaloGeneracion; // Reiniciar el contador
         }
     }
 
-    private void GenerarEnemigo()
+    private void GenerarMoneda()
     {
         float random = Random.Range(0.0f, 100.0f); // Genera un número aleatorio entre 0 y 100
 
-        // Debug.Log("Generando enemigo, número aleatorio: " + random);
+       // Debug.Log("Generando moneda, número aleatorio: " + random);
 
-        if (random < probabilidadGeneracion) // Probabilidad ajustable de instanciar un enemigo
+        if (random < probabilidadGeneracion) // Probabilidad ajustable de instanciar una moneda
         {
             float posX = camaraTransform.position.x + limiteDerecho; // Posición X exactamente en el límite derecho de la cámara
             float posY = Random.Range(minY, maxY); // Posición Y aleatoria dentro del rango
             Vector2 posicionGeneracion = new Vector2(posX, posY); // Crear el vector de posición
 
-            Instantiate(enemigoPrefab, posicionGeneracion, Quaternion.identity); // Instanciar el enemigo en la posición generada
+            Instantiate(monedaPrefab, posicionGeneracion, Quaternion.identity); // Instanciar la moneda en la posición generada
 
-            // Debug.Log("Enemigo generado en posición: " + posicionGeneracion); // Mensaje de depuración
+            //Debug.Log("Moneda generada en posición: " + posicionGeneracion); // Mensaje de depuración
         }
         else
         {
-            // Debug.Log("No se generó enemigo (random >= " + probabilidadGeneracion + ")");
+            //Debug.Log("No se generó moneda (random >= " + probabilidadGeneracion + ")");
         }
     }
 }
+
