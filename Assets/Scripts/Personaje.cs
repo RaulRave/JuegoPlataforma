@@ -6,7 +6,7 @@ public class Personaje : MonoBehaviour
     public float jumpForce = 500f;
     public int life = 3;
     public float tiempoDestruccion = 1f;
-    public int monedas;
+    public int monedas = 0;
 
     private bool isGrounded;
     private Rigidbody2D rb;
@@ -16,9 +16,6 @@ public class Personaje : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
-
-        life = 3;
-        monedas = 0;
     }
 
     void Update()
@@ -65,7 +62,7 @@ public class Personaje : MonoBehaviour
             Destroy(collision.gameObject, tiempoDestruccion);
 
             life--;
-            Debug.Log("vidas  " + life);
+            Debug.Log("Vidas: " + life);
 
             if (life <= 0)
             {
@@ -77,14 +74,14 @@ public class Personaje : MonoBehaviour
                 if (!PlayerPrefs.HasKey("Monedas"))
                 {
                     PlayerPrefs.SetInt("Monedas", monedas);
-                    Debug.Log("Nueva mejor puntuación! Record: " + monedas);
+                    Debug.Log("Nueva mejor puntuación! Récord: " + monedas);
                 }
                 else
                 {
                     if (recordUltimo < monedas)
                     {
                         PlayerPrefs.SetInt("Monedas", monedas);
-                        Debug.Log("Nueva mejor puntuación! Record: " + monedas);
+                        Debug.Log("Nueva mejor puntuación! Récord: " + monedas);
                     }
                 }
             }
