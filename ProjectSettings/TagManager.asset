@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Enemigo
   - Moneda
+  - Fondo
+  - Personaje
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - jugador
   - Limite
   - enemigo
-  - 
-  - 
+  - Fondo
+  - Personaje
   - 
   - 
   - 
@@ -41,6 +43,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Fondo
+    uniqueID: 1434274191
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
